@@ -10,6 +10,7 @@ const helmet = require("helmet");
 
 const app = express();
 
+app.use(express.compress());
 app.use(helmet());
 // View engine setup
 app.set('views',path.join(__dirname,'views'));
