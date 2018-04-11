@@ -6,11 +6,12 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const index = require('./routes/index');
 const helmet = require("helmet");
+const compress = require("compression");
 
 
 const app = express();
 
-app.use(express.compress());
+app.use(compress());
 app.use(helmet());
 // View engine setup
 app.set('views',path.join(__dirname,'views'));
@@ -43,7 +44,10 @@ app.use((req,res,next)=> {
 app.use((err,req,res)=> {
     // Set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    /* eslint-disable */
+    res.locals.error = req.app.get('env') === 'development' ? 
+      err :
+      {};
 
     // Render the error page
     res.status(err.status || 500);

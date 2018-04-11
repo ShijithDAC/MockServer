@@ -9,97 +9,40 @@ const debug = require('debug')('mockserver:server');
 const http = require('http');
 
 /**
- * Get port from environment and store in Express.
- */
-/* eslint-disable-next-line */
-const port = normalizePort(process.env.PORT || '3000');
-
-app.set('port',port);
-
-/**
  * Create HTTP server.
  */
 
 const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-/* eslint-disable-next-line */
-server.on('error',onError);
-/* eslint-disable-next-line */
-server.on('listening',onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-/* jshint ignore:start */
-const normalizePort = (val) => {
-/* jshint ignore:end */
-    /* jshint ignore:start */
-    /* eslint-disable-next-line*/
-    let port = parseInt(val,10);
-    /* jshint ignore:end*/
-    if (isNaN(port)) {
-        // A named pipe
-        return val;
-    }
-
-    if (port >= 0) {
-        // A port number
-        return port;
-    };
-    /* jshint ignore:start */
-
-    return false;
-    /*jshint ignore:end */
-};
-
-/*
- * Event listener for HTTP server "error" event.
- */
-
-const onError = (error) => {
-    if (error.syscall !== 'listen') {
-        throw error;
-    }
-};
-
-/* eslint-disable */
-let bind = typeof port === 'string' ? 
-  `Pipe ${port}` : 
-  `Port ${port}`;
-/* eslint-enable */
-
-//A  handle specific listen errors with friendly messages
-
-/*eslint-disable */
-switch (error.code) {
-case 'EACCES':
-    console.error(`${bind} requires elevated privileges`);
+const onError = () => {
+    console.error("Error while deploying");
+    /* eslint-disable */
     process.exit(1);
+    /* eslint-enable */
+};
+
+/* Which platform to choose for running */
+const myArgs = process.argv.slice(2);
+
+switch (myArgs[0]) {
+case "-dev":
+    /* eslint-disable */
+    require('dotenv').config({path:__dirname+"/../bin/development.env"});
+    console.log(`Server running in development ${process.env.PORT}`);
     break;
-case 'EADDRINUSE':
-    console.error(`${bind} is already in use`);
-    process.exit(1);
+case "-prod":
+    require('dotenv').config({path:__dirname+"/../bin/production.env"});
+    console.log(`Server in ${process.env.PORT}`)
     break;
 default:
-    throw error;
-};
-
+    console.log("default configuration");
+    require('dotenv').config({path:__dirname+"/../bin/development.env"});
+    console.log(`Server running in development ${process.env.PORT}`);
+}
 /*eslint-enable */
-/**
- * Event listener for HTTP server "listening" event.
- */
 
-const onListening = () => {
-    const addr = server.address();
-    /*eslint-disable*/
-    let bind = typeof addr === 'string'? 
-    'pipe ' + addr : 
-    'port ' + addr.port;
-    /*eslint-enable*/
-    debug(`Listening on ${bind}`);
-};
+/*eslint-disable */
+server.listen(process.env.PORT || 3000);
+/* eslint-enable */
+
+server.on("error",onError);
