@@ -10,7 +10,7 @@ const helmet = require("helmet");
 
 const app = express();
 
-app.use(helemt());
+app.use(helmet());
 // View engine setup
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','html');
