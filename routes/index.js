@@ -4,6 +4,7 @@ const router = express.Router();
 /*eslint-enable */
 
 /* GET home page. */
+/*  The enabling more than 1KB response will be cached */
 router.get('/',(req,res,next)=> {
     /* eslint-disable */
     let val = [
