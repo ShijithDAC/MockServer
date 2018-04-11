@@ -323,9 +323,8 @@ router.get('/',(req,res,next)=> {
           "greeting": "Hello, Guzman Orr! You have 3 unread messages.",
           "favoriteFruit": "banana"
         }]
-
     res.json({"data": val});
-
+    
 });
 
 router.post("/mock",(req,res,next)=>{
