@@ -5,14 +5,17 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const index = require('./routes/index');
+const helmet = require("helmet");
 
 
 const app = express();
 
+app.use(helemt());
 // View engine setup
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','html');
 app.set('layout','layout');
+app.set('view cache',true);
 app.engine('html',require('hogan-express'));
 app.locals.delimiters = '<% %>';
 
