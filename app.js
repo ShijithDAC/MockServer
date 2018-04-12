@@ -8,7 +8,6 @@ const index = require('./routes/index');
 const helmet = require("helmet");
 const compress = require("compression");
 
-
 const app = express();
 
 app.use(compress());

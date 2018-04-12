@@ -15,6 +15,7 @@ const http = require('http');
 const server = http.createServer(app);
 
 const onError = () => {
+    console.trace();
     console.error("Error while deploying");
     /* eslint-disable */
     process.exit(1);
@@ -32,7 +33,7 @@ case "-dev":
     break;
 case "-prod":
     require('dotenv').config({path:__dirname+"/../bin/production.env"});
-    console.log(`Server in ${process.env.PORT}`)
+    console.log(`Server in ${process.env.PORT}`);
     break;
 default:
     console.log("default configuration");

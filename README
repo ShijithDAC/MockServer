@@ -1,0 +1,12 @@
+1) Enabled the eslint and jshint for ES6 code in Express Framework
+
+2) Configured www according to the ewnviroment to pick the env files
+---> "nodemon bin/www -dev" to pick dev env variables
+---> "nodemon bin/www -prod" to pick prod env variables
+---> "nodemon bin/www" to pick default dev env variables
+
+3) Enabled the Redis cache
+---> Download and install redis-server
+---> Run on seprate port "redis-server --port <PORTNO>"
+---> Run redis-cli like "redis-cli -p <PORTNO>"
+
