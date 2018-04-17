@@ -1,6 +1,6 @@
 1) Enabled the eslint and jshint for ES6 code in Express Framework
 
-2) Configured www according to the ewnviroment to pick the env files
+2) Configured www according to the enviroment to pick the env files
 ---> "nodemon bin/www -dev" to pick dev env variables
 ---> "nodemon bin/www -prod" to pick prod env variables
 ---> "nodemon bin/www" to pick default dev env variables
@@ -10,3 +10,4 @@
 ---> Run on seprate port "redis-server --port <PORTNO>"
 ---> Run redis-cli like "redis-cli -p <PORTNO>"
 
+4) Enabled Winston Logger service configured in config
