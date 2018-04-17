@@ -3,6 +3,7 @@ const express = require('express');
 /*eslint-disable */
 const router = express.Router();
 const env = require("../config/config").env;
+const logs = require("../config/config").logging();
 const redis = require("redis");
 
 
@@ -15,37 +16,26 @@ if(env === "prod"){
 /*eslint-enable */
 
 // Enabling the Redis Cache server
+/* eslint-disable */
 const REDIS_PORT = process.env.REDIS_PORT;
+/* eslint-enable */
 const client = redis.createClient(REDIS_PORT);
 
 client.on('connect',() => {
     console.log(`connected to redis server`);
+    logs.log("info",`Server is Connected to Redis Server in ${REDIS_PORT}`);
 });
 client.on('error',err => {
     console.log(`Error: ${err}`);
+    logs.log("error",`Server unable to connect Redis Server in ${REDIS_PORT}`);
 });
-
-/*
-Client.set('framework','AngularJS',(err,reply) => {
-    if (err) {
-        throw err;
-    }
-    console.log(reply);
-});
-client.get('framework',(err,reply) => {
-    if (err) {
-        throw err;
-    }
-    console.log(reply);
-});
-*/
-
 
 /* GET home page. */
 /*  The enabling more than 1KB response will be cached */
 router.get('/',(req,res,next)=> {
     /* eslint-disable */
-    const key = "Redis Key1";
+    logs.log("info","API hit for GET /");
+    const key = "Redis_Key1";
     client.hgetall(key,(err,values) => {
         if(err){
             throw err;
@@ -54,53 +44,50 @@ router.get('/',(req,res,next)=> {
         if(values){
             return res.json({"cached_data":values});
         }
-        let val = [{
-            "_id": "5acf727ac36be219e7a690d9",
-            "index": 0,
-            "guid": "a8575736-b8d8-415d-9843-9185e69472aa",
-            "isActive": false,
-            "balance": "$1,753.49",
-            "picture": "http://placehold.it/32x32",
-            "age": 28,
-            "eyeColor": "brown",
-            "name": "Watkins Hopper",
-            "gender": "male",
-            "company": "XIXAN",
-            "email": "watkinshopper@xixan.com",
-            "phone": "+1 (997) 498-2816",
-            "address": "770 Putnam Avenue, Shelby, Ohio, 1886",
-            "about": "Ut Lorem et aliqua exercitation incididunt exercitation adipisicing Lorem. Aliquip ad consectetur magna consectetur ea. Mollit et nulla sit est aliqua. Qui consequat eu minim elit laborum ad nulla nostrud do ullamco nostrud laborum aute do.\r\n",
-            "registered": "2016-08-13T08:08:30 -06:-30",
-            "latitude": -21.734777,
-            "longitude": 89.359018,
-            "greeting": "Hello, Watkins Hopper! You have 1 unread messages.",
-            "favoriteFruit": "strawberry",
-            "a":"b",
-            "c":"d",
-            "e":"f",
-            "g":"h",
-            "i":"j",
-            "k":"l"
-          },{"name":"Shijith"}] 
+        let val = [
+            {
+              "_id": "5ad0568add32ff2cb0436f34",
+              "index": 0,
+              "guid": "14c4278a-4d74-4126-bf46-3dafa19a5059",
+              "isActive": true,
+              "balance": "$1,281.76",
+              "picture": "http://placehold.it/32x32",
+              "age": 25,
+              "eyeColor": "blue",
+              "name": "Ellis Cole",
+              "gender": "male",
+              "company": "INSURETY",
+              "email": "elliscole@insurety.com",
+              "phone": "+1 (819) 523-3542",
+              "address": "788 Monroe Street, Lopezo, Arizona, 7407",
+              "about": "Labore cupidatat fugiat irure ea. Aliqua eiusmod proident eu sit magna est excepteur cupidatat labore minim dolor. Cillum pariatur exercitation officia consectetur fugiat elit irure exercitation adipisicing proident incididunt nulla fugiat eiusmod. Magna tempor deserunt exercitation non nostrud non ad dolore ex incididunt ut dolor exercitation. Enim amet esse tempor adipisicing non consectetur deserunt. Anim esse deserunt non ullamco commodo aliqua fugiat dolor reprehenderit consequat reprehenderit fugiat.\r\n",
+              "registered": "2016-03-15T03:22:56 -06:-30",
+              "latitude": 57.355001,
+              "longitude": -133.741212,
+              "greeting": "Hello, Ellis Cole! You have 6 unread messages.",
+              "favoriteFruit": "apple"
+            },
+            {
+              "a": "848 Crooke Avenue, Alamo, District Of Columbia, 3045",
+              "b": "Lorem est commodo laborum adipisicing velit excepteur mollit aliquip. Elit minim ea officia velit minim consequat consectetur eiusmod minim occaecat cillum. Laborum eiusmod incididunt duis duis consectetur enim ad duis labore ea enim ea occaecat officia.\r\n",
+              "c": "2014-02-01T02:51:14 -06:-30",
+              "d": 18.345426,
+              "longitude1": 143.128176,
+              "greeting": "Hello, Horton Santos! You have 1 unread messages.",
+              "favoriteFruit": "apple"
+            }
+        ] 
         for( let i in val){
             client.HMSET(key,val[i]);
         }
-        // client.hmset(key,val,(err,result)=>{
-        //     if(err){
-        //         throw err
-        //     }
-            client.expire(key,10);
-            return res.json({"data":val})
-        // })
+        client.expire(key,10);
+        return res.json({"data":val});
 
-    });
-
-    
-    
+    });   
 });
 
 router.post("/mock",(req,res,next)=>{
-    
+    logs.log("info","API hit for POST /mock");
     const user = req.body.username;
     const pass = req.body.password;
 
