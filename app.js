@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const index = require('./routes/index');
 const helmet = require("helmet");
 const compress = require("compression");
-
 const app = express();
 
 app.use(compress());
