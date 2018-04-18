@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
+const session = require("express-session");
+const RedisStore = require('connect-redis')(session);
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const index = require('./routes/index');
@@ -22,9 +24,20 @@ app.locals.delimiters = '<% %>';
 // Uncomment after placing your favicon in /public
 // Use app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended": false}));
 app.use(cookieParser());
+app.use(session({
+    "resave": true,
+    "saveUninitialized": true,
+    "secret": 'keyboardsecretfornodejs',
+    "store": new RedisStore({
+        "host": 'localhost',
+        "port": 9090
+    })
+    
+}));
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use('/',index);
@@ -35,7 +48,8 @@ app.use((req,res,next)=> {
     const err = new Error('Not Found');
 
     err.status = 404;
-    next(err);
+
+    return res.json({"message": "No route found for 404"});
 });
 
 // Error handler
@@ -49,7 +63,7 @@ app.use((err,req,res)=> {
 
     // Render the error page
     res.status(err.status || 500);
-    res.render('error');
+    res.json({"message":'error'});
 });
 
 module.exports = app;

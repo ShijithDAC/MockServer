@@ -11,3 +11,12 @@
 ---> Run redis-cli like "redis-cli -p <PORTNO>"
 
 4) Enabled Winston Logger service configured in config
+
+5) Enabled Session and Cookie handler for the Express App for the redis port 9090 dev env, yet to do for the prod.
+    Here the Session id will be encrypted and stored in redis memory
+
+    GET / -----> Will ask to redirect to /mock with credentials
+    POST /mock -----> will be authorised and password to be checked in DB (pending) and the username will be saved in the session.
+    GET /logout -----> created session will be destoyed and you will no more able to access the GET / data until you do  POST /mock.
+
+6) Handled the 404 route in app.js. 
