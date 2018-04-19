@@ -5,6 +5,8 @@ const router = express.Router();
 const env = require("../config/config").env;
 const logs = require("../config/config").logging();
 const redis = require("redis");
+const validator = require("../helpers/validators");
+const successFormatter = require("../helpers/successHandler").sendFormattedSuccess;
 
 
 if(env === "dev"){
@@ -132,6 +134,18 @@ router.get("/logout",(req,res,next)=>{
         }
     });
     
+});
+
+router.get("/testValidators",(req,res,next)=>{
+    let arr = {"a":[10,20,30,40,50]};
+    let arr1 = [10,20,30,40,50];
+    console.log(typeof successFormatter);
+    if(validator.isArray(arr1)){
+        successFormatter(res,arr);
+    }
+    else{
+        res.json({"message":"InValid Array"});
+    }
 });
 
 module.exports = router;
