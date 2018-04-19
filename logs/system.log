@@ -571,3 +571,10 @@
 {"level":"info","message":"API hit for GET /","timestamp":"18:07:27"}
 {"level":"warn","message":"Session data is not available and will be generated once you login in /mock","timestamp":"18:07:32"}
 {"level":"warn","message":"Session data is not available and will be generated once you login in /mock","timestamp":"18:07:37"}
+{"level":"info","message":"Server is Connected to Redis Server in 9090","timestamp":"13:33:05"}
+{"level":"info","message":"Server is Connected to Redis Server in 9090","timestamp":"13:36:33"}
+{"level":"info","message":"Server is Connected to Redis Server in 9090","timestamp":"13:36:36"}
+{"level":"info","message":"Server is Connected to Redis Server in 9090","timestamp":"13:37:18"}
+{"level":"info","message":"Server is Connected to Redis Server in 9090","timestamp":"13:40:05"}
+{"level":"info","message":"Server is Connected to Redis Server in 9090","timestamp":"13:40:40"}
+{"level":"info","message":"Server is Connected to Redis Server in 9090","timestamp":"13:41:16"}
