@@ -20,3 +20,5 @@
     GET /logout -----> created session will be destoyed and you will no more able to access the GET / data until you do  POST /mock.
 
 6) Handled the 404 route in app.js. 
+
+7) Added the Validators and Success format Message in ../helpers and tested in ../routes/index.js for the /testValidators route
