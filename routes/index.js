@@ -41,7 +41,6 @@ router.get('/',(req,res,next) => {
         return res.json({"message":" Please try hitting POST /mock with credentials"});
 
     }
-    console.log("hello");
     logs.log("info","API hit for GET /");
     const key = "Redis_Key1";
     client.hgetall(key,(err,values) => {
@@ -60,8 +59,8 @@ router.get('/',(req,res,next) => {
                 "isActive": true,
                 "balance": "$1,281.76",
                 "picture": "http://placehold.it/32x32",
-                "age": 25,
-                "eyeColor": "blue",
+                "author": 25,
+                "title": "blue",
                 "name": "Ellis Cole",
                 "gender": "male",
                 "company": "INSURETY",
@@ -78,8 +77,8 @@ router.get('/',(req,res,next) => {
             {
                 "a": "848 Crooke Avenue, Alamo, District Of Columbia, 3045",
                 "b": "Lorem est commodo laborum adipisicing velit excepteur mollit aliquip. Elit minim ea officia velit minim consequat consectetur eiusmod minim occaecat cillum. Laborum eiusmod incididunt duis duis consectetur enim ad duis labore ea enim ea occaecat officia.\r\n",
-                "c": "2014-02-01T02:51:14 -06:-30",
-                "d": 18.345426,
+                "author": "2014-02-01T02:51:14 -06:-30",
+                "title": [18.345426,12,12,1,3,1],
                 "longitude1": 143.128176,
                 "greeting": "Hello, Horton Santos! You have 1 unread messages.",
                 "favoriteFruit": "apple"
@@ -107,7 +106,6 @@ router.post("/mock",(req,res,next)=>{
     const user = req.body.username;
     const pass = req.body.password;
     req.session.username = user;
-    console.log(req.session.username)
     if (user === "MYusername" && pass === "MYpassword")
     {
 

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "mocha || true"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -23,6 +24,7 @@
     "nodemon": "^1.17.3",
     "passport": "^0.4.0",
     "pino": "^4.16.1",
+    "pm2": "^2.10.2",
     "redis": "^2.8.0",
     "redis-jsonify": "^1.0.1",
     "serve-favicon": "~2.4.5",
