@@ -9,48 +9,48 @@ const validator = require("../helpers/validators");
 const successFormatter = require("../helpers/successHandler").sendFormattedSuccess;
 
 
-// if(env === "dev"){
-//     require('dotenv').config({path:__dirname+"/../bin/development.env"});
-// }
-// if(env === "prod"){
-//     require('dotenv').config({path:__dirname+"/../bin/production.env"});
-// }
-// /*eslint-enable */
+if(env === "dev"){
+    require('dotenv').config({path:__dirname+"/../bin/development.env"});
+}
+if(env === "prod"){
+    require('dotenv').config({path:__dirname+"/../bin/production.env"});
+}
+/*eslint-enable */
 
-// // Enabling the Redis Cache server
-// /* eslint-disable */
-// const REDIS_PORT = process.env.REDIS_PORT;
-// /* eslint-enable */
-// const client = redis.createClient(REDIS_PORT);
+// Enabling the Redis Cache server
+/* eslint-disable */
+const REDIS_PORT = process.env.REDIS_PORT;
+/* eslint-enable */
+const client = redis.createClient(REDIS_PORT);
 
-// client.on('connect',() => {
-//     console.log(`connected to redis server`);
-//     logs.log("info",`Server is Connected to Redis Server in ${REDIS_PORT}`);
-// });
-// client.on('error',err => {
-//     console.log(`Error: ${err}`);
-//     logs.log("error",`Server unable to connect Redis Server in ${REDIS_PORT}`);
-// });
+client.on('connect',() => {
+    console.log(`connected to redis server`);
+    logs.log("info",`Server is Connected to Redis Server in ${REDIS_PORT}`);
+});
+client.on('error',err => {
+    console.log(`Error: ${err}`);
+    logs.log("error",`Server unable to connect Redis Server in ${REDIS_PORT}`);
+});
 
 /* GET home page. */
 /*  The enabling more than 1KB response will be cached */
 router.get('/',(req,res,next) => {
     /* eslint-disable */
-    // if(req.session.username === "undefined" || !(req.session.username)){
-    //     logs.log("warn","Session data is not available and will be generated once you login in /mock");
-    //     return res.json({"message":" Please try hitting POST /mock with credentials"});
+    if(req.session.username === "undefined" || !(req.session.username)){
+        logs.log("warn","Session data is not available and will be generated once you login in /mock");
+        return res.json({"message":" Please try hitting POST /mock with credentials"});
 
-    // }
-    // logs.log("info","API hit for GET /");
-    // const key = "Redis_Key1";
-    // client.hgetall(key,(err,values) => {
-    //     if(err){
-    //         throw err;
-    //     }
+    }
+    logs.log("info","API hit for GET /");
+    const key = "Redis_Key1";
+    client.hgetall(key,(err,values) => {
+        if(err){
+            throw err;
+        }
         
-    //     if(values){
-    //         return res.json({"cached_data":values});
-    //     }
+        if(values){
+            return res.json({"cached_data":values});
+        }
         let val = [
             {
                 "_id": "5ad0568add32ff2cb0436f34",
@@ -84,55 +84,55 @@ router.get('/',(req,res,next) => {
                 "favoriteFruit": "apple"
             }
         ] 
-        // for( let i in val){
-        //     client.HMSET(key,val[i]);
-        // }
-        // client.expire(key,10);
+        for( let i in val){
+            client.HMSET(key,val[i]);
+        }
+        client.expire(key,10);
         return res.json({"data":val});
 
-    // });
+    });
          
 });
 
-// router.post("/mock",(req,res,next)=>{
-//     logs.log("info","API hit for POST /mock");
-//     logs.log("info","Here we need to enter the credentials to save the session");
-//     if(req.session.username){
-//         // here you can check for the password exist in DB (NOSQL or RDB)
-//         // if the correct password exists
-//         logs.log("info","Session data is available and will be directed to /");
-//         return res.json({"message":" Please try hitting GET /"});
-//     }
-//     const user = req.body.username;
-//     const pass = req.body.password;
-//     req.session.username = user;
-//     if (user === "MYusername" && pass === "MYpassword")
-//     {
+router.post("/mock",(req,res,next)=>{
+    logs.log("info","API hit for POST /mock");
+    logs.log("info","Here we need to enter the credentials to save the session");
+    if(req.session.username){
+        // here you can check for the password exist in DB (NOSQL or RDB)
+        // if the correct password exists
+        logs.log("info","Session data is available and will be directed to /");
+        return res.json({"message":" Please try hitting GET /"});
+    }
+    const user = req.body.username;
+    const pass = req.body.password;
+    req.session.username = user;
+    if (user === "MYusername" && pass === "MYpassword")
+    {
 
-//         console.log("Success");
-//         res.status(200);
-//         res.json({"message": "You are Authorised"});
-//     }
-//     else
-//     {
-//         console.log("Failure");
-//         res.status(401);
-//         res.json({"message": "UnAuthorised"});
-//     }
+        console.log("Success");
+        res.status(200);
+        res.json({"message": "You are Authorised"});
+    }
+    else
+    {
+        console.log("Failure");
+        res.status(401);
+        res.json({"message": "UnAuthorised"});
+    }
 
-// });
+});
 
-// router.get("/logout",(req,res,next)=>{
-//     req.session.destroy((err)=>{
-//         if(err){
-//             console.log(err);
-//         }
-//         else{
-//             res.redirect("/");
-//         }
-//     });
+router.get("/logout",(req,res,next)=>{
+    req.session.destroy((err)=>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.redirect("/");
+        }
+    });
     
-// });
+});
 
 router.get("/testValidators",(req,res,next)=>{
     let arr = {"a":[10,20,30,40,50]};
